@@ -1,7 +1,5 @@
 # free-claude-code — Go Edition
 
-A Go port of [Alishahryar1/free-claude-code](https://github.com/Alishahryar1/free-claude-code).
-
 Acts as a local proxy on `:8082` that intercepts Claude Code CLI requests and
 forwards them to free LLM providers (NVIDIA NIM, OpenRouter, LM Studio, llama.cpp, DeepSeek).
 
