@@ -29,9 +29,6 @@ jobs:
           - os: darwin
             arch: arm64
             suffix: ''
-          - os: windows
-            arch: amd64
-            suffix: '.exe'
 
     steps:
     - uses: actions/checkout@v4
