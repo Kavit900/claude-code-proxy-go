@@ -20,8 +20,6 @@ jobs:
             arch: amd64
           - os: darwin
             arch: arm64
-          - os: windows
-            arch: amd64
 
     steps:
     - uses: actions/checkout@v4
@@ -42,9 +40,6 @@ jobs:
         GOARCH: ${{ matrix.arch }}
       run: |
         suffix=""
-        if [ "${{ matrix.os }}" = "windows" ]; then
-          suffix=".exe"
-        fi
         output_name="claude-code-proxy-go-${{ matrix.os }}-${{ matrix.arch }}${suffix}"
         go build -ldflags="-s -w" -o $output_name ./cmd/server
 
