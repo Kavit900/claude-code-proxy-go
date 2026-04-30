@@ -1,4 +1,4 @@
-BINARY=free-claude-code
+BINARY=claude-code-proxy-go
 CMD=./cmd/server
 
 .PHONY: build run dev deps tidy lint clean

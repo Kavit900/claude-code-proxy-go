@@ -1,4 +1,4 @@
-# free-claude-code — Go Edition
+# claude-code-proxy-go
 
 Acts as a local proxy on `:8082` that intercepts Claude Code CLI requests and
 forwards them to free LLM providers (NVIDIA NIM, OpenRouter, LM Studio, llama.cpp, DeepSeek).
@@ -47,7 +47,7 @@ npm install -g @anthropic-ai/claude-code
 
 ```bash
 git clone <this-repo>
-cd free-claude-code-go
+cd claude-code-proxy-go
 cp .env.example .env
 # Edit .env — set your NVIDIA_NIM_API_KEY and MODEL_* vars
 ```
@@ -122,13 +122,62 @@ MODEL=llamacpp/your-model-name
 
 ```bash
 make build
-./free-claude-code
+./claude-code-proxy-go
 ```
 
 Cross-compile for Linux from macOS:
 
 ```bash
-GOOS=linux GOARCH=amd64 go build -o free-claude-code-linux ./cmd/server
+GOOS=linux GOARCH=amd64 go build -o claude-code-proxy-go-linux ./cmd/server
+```
+
+---
+
+## CI/CD & Releases
+
+### Automated CI Builds
+
+Every push to `main` triggers a CI build that compiles for all platforms:
+
+```bash
+git push origin main
+```
+
+This creates temporary build artifacts that are stored for **7 days** to verify the build works correctly.
+
+### Creating Releases
+
+To create a permanent release with binaries attached:
+
+```bash
+# Create and push a tag
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The tag triggers the release workflow which:
+- Builds binaries for Linux, macOS (Intel & Apple Silicon), and Windows (.exe)
+- Creates a GitHub Release with all binaries attached
+- Generates release notes automatically
+
+**Release assets are permanent** and available on your repository's Releases page.
+
+### Downloading Binaries
+
+After a release is created, users can download from the Releases page or use:
+
+```bash
+# Linux
+curl -L https://github.com/Kavit900/claude-code-proxy-go/releases/latest/download/claude-code-proxy-go-linux-amd64
+
+# macOS Intel
+curl -L https://github.com/Kavit900/claude-code-proxy-go/releases/latest/download/claude-code-proxy-go-darwin-amd64
+
+# macOS Apple Silicon
+curl -L https://github.com/Kavit900/claude-code-proxy-go/releases/latest/download/claude-code-proxy-go-darwin-arm64
+
+# Windows (.exe)
+curl -L https://github.com/Kavit900/claude-code-proxy-go/releases/latest/download/claude-code-proxy-go-windows-amd64.exe
 ```
 
 ---
@@ -136,7 +185,7 @@ GOOS=linux GOARCH=amd64 go build -o free-claude-code-linux ./cmd/server
 ## Project structure
 
 ```
-free-claude-code-go/
+claude-code-proxy-go/
 ├── cmd/server/main.go          # Entry point, HTTP server, graceful shutdown
 ├── internal/
 │   ├── api/handler.go          # /v1/messages, /v1/models, /health routes
